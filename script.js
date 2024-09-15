@@ -48,7 +48,7 @@ function changeDue (cash) {
 	
 	for (let i = 0; i < moneyValue.length; i++) {
 		if (cash.toFixed(2) >= moneyValue[i].value && moneyValue[i].value <= cid[cid.length - i][1]) {
-			cid[cid.length - i][1] -= moneyValue[i];
+			cid[cid.length - i][1] -= moneyValue[i].value;
 			console.log(cid);
 			return moneyValue[i].name + changeDue(cash.toFixed(2) - moneyValue[i].value)
 		}
@@ -63,7 +63,6 @@ function checkCidAmount (demonination, cidAmount) {
 	
 	
 };
-
 
 
 console.log(changeDue(14.34)); 
