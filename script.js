@@ -53,7 +53,17 @@ function changeDue (cash) {
 			
 			console.log(moneyValue[i].value);
 			
-			return moneyValue[i].name + changeDue(cash.toFixed(2) - moneyValue[i].value)
+			let holder = moneyValue[i].value;
+			
+			if (document.getElementById(`${moneyValue[i].name}`).textContent === "") {
+				document.getElementById(`${moneyValue[i].name}`).textContent = Number(moneyValue[i].value)
+			} else {
+				document.getElementById(`${moneyValue[i].name}`).textContent += Number(moneyValue[i].value)
+			};
+			
+			/* changeDueDiv.innerHTML += `<p id="${moneyValue[i].name}">${moneyValue[i].name}: $${moneyValue[i].value}</p>` */
+			
+			return changeDue(cash.toFixed(2) - moneyValue[i].value)
 		}
 		
 	}
