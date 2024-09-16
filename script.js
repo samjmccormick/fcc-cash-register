@@ -6,7 +6,7 @@ let cid = [
   ['QUARTER', 4.25],
   ['ONE', 90],
   ['FIVE', 55],
-  ['TEN', 20],
+  ['TEN', 9],
   ['TWENTY', 60],
   ['ONE HUNDRED', 100]
 ];
