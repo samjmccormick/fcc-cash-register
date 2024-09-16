@@ -36,7 +36,7 @@ let cid = [
   ['QUARTER', 4.25],
   ['ONE', 90],
   ['FIVE', 55],
-  ['TEN', 20],
+  ['TEN', 9],
   ['TWENTY', 60],
   ['ONE HUNDRED', 100]
 ];
@@ -47,11 +47,15 @@ function changeDue (cash) {
 	}
 	
 	for (let i = 0; i < moneyValue.length; i++) {
-		if (cash.toFixed(2) >= moneyValue[i].value && moneyValue[i].value <= cid[cid.length - i][1]) {
-			cid[cid.length - i][1] -= moneyValue[i].value;
-			console.log(cid);
+		if (cash.toFixed(2) >= moneyValue[i].value && moneyValue[i].value <= cid[cid.length - i - 1][1]) {
+			console.log(cid[cid.length - i - 1][1])
+			cid[cid.length - i - 1][1] -= moneyValue[i].value;
+			
+			console.log(moneyValue[i].value);
+			
 			return moneyValue[i].name + changeDue(cash.toFixed(2) - moneyValue[i].value)
 		}
+		
 	}
 };
 
@@ -66,3 +70,5 @@ function checkCidAmount (demonination, cidAmount) {
 
 
 console.log(changeDue(14.34)); 
+
+console.log(cid);
