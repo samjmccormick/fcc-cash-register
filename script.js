@@ -1,11 +1,14 @@
 const changeDueDiv = document.getElementById("change-due");
 const userInputCash = document.getElementById("cash");
 const purchaseBtn = document.getElementById("purchase-btn");
-const priceDiv = document.getElementById("price");
-const cidDIV = document.getElementById("cid");
+const priceSpan = document.getElementById("price");
+const cidDiv = document.getElementById("cid");
+const cidSpans = document.querySelectorAll(".cid-divs > span")
+const statusEl = document.getElementById("status");
+const changeHolderClass = document.querySelectorAll(".change-holder");
 
 const moneyValue = [
-{name: 'ONE HUNDRED',
+{name: 'HUNDRED',
 value: 100.00},
 {name: 'TWENTY',
 value: 20.00},
@@ -28,18 +31,20 @@ value: 0.01}
 
 /* price and cash in draw variables */
 
-let price = 1.87;
+let price = 1.00;
 let cid = [
-  ['PENNY', 1.01],
-  ['NICKEL', 2.05],
-  ['DIME', 3.1],
-  ['QUARTER', 4.25],
-  ['ONE', 90],
-  ['FIVE', 55],
-  ['TEN', 9],
-  ['TWENTY', 60],
+  ['PENNY', .01],
+  ['NICKEL', .05],
+  ['DIME', .1],
+  ['QUARTER', .25],
+  ['ONE', 1],
+  ['FIVE', 5],
+  ['TEN', 10],
+  ['TWENTY', 20],
   ['ONE HUNDRED', 100]
 ];
+
+let accumulator = 0;
 
 function changeDue (cash) {
 	if (cash === 0) {
@@ -48,37 +53,89 @@ function changeDue (cash) {
 	
 	for (let i = 0; i < moneyValue.length; i++) {
 		if (cash.toFixed(2) >= moneyValue[i].value && moneyValue[i].value <= cid[cid.length - i - 1][1]) {
-			console.log(cid[cid.length - i - 1][1])
-			cid[cid.length - i - 1][1] -= moneyValue[i].value;
+			let total = 0;
+			for (let j = 0; j < cid.length - i; j++) {
+				 total += cid[j][1]
+			}
 			
-			console.log(moneyValue[i].value);
-			
-			let holder = moneyValue[i].value;
-			
-			if (document.getElementById(`${moneyValue[i].name}`).textContent === "") {
-				document.getElementById(`${moneyValue[i].name}`).textContent = Number(moneyValue[i].value)
+			if (total < cash) {
+				statusEl.parentElement.classList.remove("hide");
+				statusEl.textContent = "INSUFFICIENT_FUNDS";
+				return
+			}else if (document.getElementById(`${moneyValue[i].name}`).textContent === "") {
+				document.getElementById(`${moneyValue[i].name}`).parentElement.classList.remove("hide");
+				accumulator = moneyValue[i].value;
+				document.getElementById(`${moneyValue[i].name}`).textContent = moneyValue[i].value;
 			} else {
-				document.getElementById(`${moneyValue[i].name}`).textContent += Number(moneyValue[i].value)
-			};
-			
-			/* changeDueDiv.innerHTML += `<p id="${moneyValue[i].name}">${moneyValue[i].name}: $${moneyValue[i].value}</p>` */
-			
-			return changeDue(cash.toFixed(2) - moneyValue[i].value)
-		}
+				accumulator += moneyValue[i].value;
+				document.getElementById(`${moneyValue[i].name}`).textContent = accumulator;
+			}; 
+		cid[cid.length - i - 1][1] -= moneyValue[i].value;
 		
+		return changeDue(cash.toFixed(2) - moneyValue[i].value)
+		}
 	}
 };
 
-function totalChange (price, customerCash) {
+
+
+function populateCid () {
+	for (let i = 0; i < cid.length; i++) {
+		cidSpans[i].textContent = cid[i][1]
+	}
+};
+
+function changeNeeded (price, customerCash) {
 	return customerCash.toFixed(2) - price.toFixed(2);
 };
 
-function checkCidAmount (demonination, cidAmount) {
-	
-	
+function cidTotal () {
+	let total = 0;
+	for (let i = 0; i < cid.length; i++) {
+		 total += cid[i][1];
+	}
+	return total;
 };
 
 
-console.log(changeDue(14.34)); 
 
-console.log(cid);
+function cidChecks (cid, changeRequired) {
+	if (cid < changeRequired) {
+		statusEl.parentElement.classList.remove("hide");
+		statusEl.textContent = "INSUFFICIENT_FUNDS";
+	} else if (cid === changeRequired) {
+		statusEl.parentElement.classList.remove("hide");
+		statusEl.textContent = "CLOSED";
+		changeDue(changeRequired);
+	} else {
+		statusEl.parentElement.classList.remove("hide");
+		statusEl.textContent = "OPEN";
+		changeDue(changeRequired);
+	}
+	
+}
+
+function populatePrice () {
+	priceSpan.textContent = price;
+}
+
+function clear () {
+	for (let i = 0; i <changeHolderClass.length; i++) {
+	changeHolderClass[i].className = "change-holder hide";
+	}
+}
+
+
+populatePrice();
+
+populateCid();
+
+purchaseBtn.addEventListener("click", () => {
+	clear();
+	const total = cidTotal();
+	const change = changeNeeded(price, Number(userInputCash.value));
+	
+	cidChecks(total, change);
+	populateCid();
+});
+

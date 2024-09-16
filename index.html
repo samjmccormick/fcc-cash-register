@@ -9,21 +9,32 @@
   <body>
     <h1>Cash Register Project</h1>
     <div id="change-due">
-	  <p class="change-holder hide">HUNDRED: $<p id="HUNDRED"></p></p>
-	  <p class="change-holder hide">TWENTY: $<p id="TWENTY"></p></p>
-	  <p class="change-holder hide">TEN: $<p id="TEN"></p></p>
-	  <p class="change-holder hide">FIVE: $<p id="FIVE"></p></p>
-	  <p class="change-holder hide">ONE: $<p id="ONE"></p></p>
-	  <p class="change-holder hide">QUARTER: $<p id="QUARTER"></p></p>
-	  <p class="change-holder hide">DIME: $<p id="DIME"></p></p>
-	  <p class="change-holder hide">NICKEL: $<p id="NICKEL"></p></p>
-	  <p class="change-holder hide">PENNY: $<p id="PENNY"></p></p>
+	  <div class="change-holder hide">Status: <span id="status"></span></div>
+	  <div class="change-holder hide">HUNDRED: $<span id="HUNDRED"></span></div>
+	  <div class="change-holder hide">TWENTY: $<span id="TWENTY"></span></div>
+	  <div class="change-holder hide">TEN: $<span id="TEN"></span></div>
+	  <div class="change-holder hide">FIVE: $<span id="FIVE"></span></div>
+	  <div class="change-holder hide">ONE: $<span id="ONE"></span></div>
+	  <div class="change-holder hide">QUARTER: $<span id="QUARTER"></span></div>
+	  <div class="change-holder hide">DIME: $<span id="DIME"></span></div>
+	  <div class="change-holder hide">NICKEL: $<span id="NICKEL"></span></div>
+	  <div class="change-holder hide">PENNY: $<span id="PENNY"></span></div>
 	</div>
 	<label for="cash">Enter cash from customer:</label>
 	<input id="cash" type="number" required >
 	<button type="button" id="purchase-btn">Purchase</button>
-	<div id="price"></div>
-	<div id="cid"></div>
+	<div class="price">Total: $<span class="price" id="price"></span></div>
+	<div id="cid">
+	  <div class="cid-divs">Pennies: $<span></span></div>
+	  <div class="cid-divs">Nickels: $<span></span></div>
+	  <div class="cid-divs">Dimes: $<span></span></div>
+	  <div class="cid-divs">Quarters: $<span></span></div>
+	  <div class="cid-divs">Ones: $<span></span></div>
+	  <div class="cid-divs">Fives: $<span></span></div>
+	  <div class="cid-divs">Tens: $<span></span></div>
+	  <div class="cid-divs">Twenties: $<span></span></div>
+	  <div class="cid-divs">Hundreds: $<span></span></div>
+	</div>
 	<script src="./script.js"></script>
   </body>
  </html>
