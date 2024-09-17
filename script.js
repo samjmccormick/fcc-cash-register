@@ -32,18 +32,16 @@ value: 0.01}
 
 /* price and cash in draw variables */
 
-let price = 3.26;
-let cid = [
-  ['PENNY', 1.01],
-  ['NICKEL', 2.05],
-  ['DIME', 3.1],
-  ['QUARTER', 4.25],
-  ['ONE', 90],
-  ['FIVE', 55],
-  ['TEN', 20],
-  ['TWENTY', 60],
-  ['ONE HUNDRED', 100]
-];
+let price = 19.5;
+let cid = [ ["PENNY", 0.5], 
+			["NICKEL", 0], 
+			["DIME", 0], 
+			["QUARTER", 0], 
+			["ONE", 0], 
+			["FIVE", 0], 
+			["TEN", 0], 
+			["TWENTY", 0], 
+			["ONE HUNDRED", 0]];
 
 let accumulator = 0;
 
@@ -51,29 +49,32 @@ function changeDue (cash) {
 	if (cash === 0) {
 		return "";
 	}
+
+	let cashFixed = parseFloat(cash.toFixed(2));
 	
 	for (let i = 0; i < moneyValue.length; i++) {
-		if (cash.toFixed(2) >= moneyValue[i].value && moneyValue[i].value <= cid[cid.length - i - 1][1]) {
+		if (cashFixed >= moneyValue[i].value && moneyValue[i].value <= cid[cid.length - i - 1][1]) {
 			let total = 0;
 			for (let j = 0; j < cid.length - i; j++) {
-				 total += cid[j][1]
+				 total += parseFloat((cid[j][1]).toFixed(2));
 			}
-			
-			if (total < cash) {
+			console.log(total);
+			console.log(cashFixed);
+			if (total < cashFixed ) {
 				statusEl.parentElement.classList.remove("hide");
 				statusEl.textContent = "INSUFFICIENT_FUNDS";
 				return
 			}else if (document.getElementById(`${moneyValue[i].name}`).textContent === "") {
 				document.getElementById(`${moneyValue[i].name}`).parentElement.classList.remove("hide");
-				accumulator = moneyValue[i].value;
+				accumulator = parseFloat((moneyValue[i].value).toFixed(2));
 				document.getElementById(`${moneyValue[i].name}`).textContent = moneyValue[i].value;
 			} else {
-				accumulator += moneyValue[i].value;
+				accumulator += parseFloat((moneyValue[i].value).toFixed(2));
 				document.getElementById(`${moneyValue[i].name}`).textContent = accumulator;
 			}; 
-		cid[cid.length - i - 1][1] -= moneyValue[i].value;
+		cid[cid.length - i - 1][1] -= parseFloat((moneyValue[i].value).toFixed(2));
 		
-		return changeDue(cash.toFixed(2) - moneyValue[i].value)
+		return changeDue(cashFixed - parseFloat((moneyValue[i].value).toFixed(2)))
 		}
 	}
 };
