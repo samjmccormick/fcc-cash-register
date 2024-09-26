@@ -51,7 +51,7 @@ const moneyValue = [
 /* price and cash in draw variables */
 
 let price = 19.5;
-let cid = [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]];
+let cid = [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]];
 
 let accumulator = 0;
 
@@ -111,14 +111,20 @@ function cidTotal() {
 
 
 
-function cidChecks(cid, changeRequired) {
-	if (cid < changeRequired) {
+function cidChecks(cidTotal, changeRequired) {
+	if (cidTotal < changeRequired) {
 		statusEl.parentElement.classList.remove("hide");
 		statusEl.textContent = "INSUFFICIENT_FUNDS";
-	} else if (cid === changeRequired) {
+	} else if (cidTotal === changeRequired) {
 		statusEl.parentElement.classList.remove("hide");
 		statusEl.textContent = "CLOSED";
-		changeDue(changeRequired);
+		for (let i = 0; i < cid.length; i++) {
+			if (cid[i][1] !== 0) {
+				document.getElementById(`${cid[i][0]}`).parentElement.classList.remove("hide");
+				document.getElementById(`${cid[i][0]}`).textContent = cid[i][1];
+				cid[i][1] = 0;
+			}
+		};
 	} else {
 		statusEl.parentElement.classList.remove("hide");
 		statusEl.textContent = "OPEN";
